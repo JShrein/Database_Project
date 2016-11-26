@@ -27,7 +27,7 @@ if(isset($_SESSION['message'])) {
 </form>
 
 <?php
-$posts = show_posts($_SESSION['user_id']);
+$posts = show_posts($link, $_SESSION['user_id']);
 
 if(count($posts)) {
 ?>

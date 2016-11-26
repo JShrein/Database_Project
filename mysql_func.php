@@ -1,11 +1,11 @@
 <?php
-function add_post($user_id, $content) {
+function add_post($link, $user_id, $content) {
 	$sqlcmd = "INSERT INTO posts(user_id, content, time_stamp)
-					VALUES($user_id, '".mysql_real_escape_string($content). "', now())";
-	$result = mysql_query($sqlcmd);
+				VALUES($user_id, '".mysql_real_escape_string($content). "', now())";
+	$result = mysqli_query($link, $sqlcmd);
 }
 
-function show_posts($user_id){
+function show_posts($link, $user_id) {
 	$posts = array();
 
 	$sqlcmd = "SELECT content, time_stamp 
@@ -13,14 +13,51 @@ function show_posts($user_id){
 				WHERE user_id = '$user_id' 
 				ORDER BY time_stamp DESC";
 
-	$result = mysql_query($sqlcmd);
+	$result = mysqli_query($link, $sqlcmd);
 
-	while($data = mysql_fetch_object($result)){
+	while($data = mysqli_fetch_object($result)) {
 		$posts[] = ['time_stamp' => $data->time_stamp,
 					'user_id' => $user_id,
 					'content' => $data->content];
 	}
 
 	return $posts;
+}
+
+function show_users($link) {
+	$users = array();
+	$sqlcmd = "SELECT user_id, username, email 
+				FROM users 
+				WHERE status='active'
+				ORDER BY username";
+	$result = mysqli_query($link, $sqlcmd);
+
+	while($data = mysqli_fetch_object($result)) {
+		$users[] = [$data->user_id => $data->username,
+				    'email' => $data->email];
+	}
+
+	return $users;
+}
+
+// Search term may be all or part of a username or email
+function search_users($link, $term) {
+	$found = array();
+	$users = show_users($link);
+	$lowerterm = strtolower($term);
+
+	foreach($users as $key => $user) {
+		$keys = array_keys($user);
+		$username = $user[$keys[0]];
+		$email = $user[$keys[1]];
+		
+		if(strpos(strtolower($username), strtolower($term)) !== false || 
+		   strpos(strtolower($email), strtolower($term)) !== false) {
+			
+			$found[] = $user;
+		}
+	}
+
+	return $found;
 }
 ?>

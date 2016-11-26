@@ -4,11 +4,11 @@ $USER = 'COMP7115';
 $PASS = 'Databases';
 $DATABASE = 'comp7115_project';
 
-if(!($mylink = mysql_connect($SERVER, $USER, $PASS))) {
-	echo "<h3>Unable to connect to database.</h3><br />
-	You should probably fix that\n";
-	exit;
-}
+$link = mysqli_connect($SERVER, $USER, $PASS, $DATABASE);
 
-mysql_select_db($DATABASE);
+if(!$link) {
+	echo "Error: Unable to connect to MySQL Database" . PHP_EOL;
+	echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
+	echo "Debugging error: " . mysqli_connect_error() . PHP_EOL;
+}
 ?>
