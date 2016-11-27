@@ -34,7 +34,7 @@ function show_users($link) {
 	$result = mysqli_query($link, $sqlcmd);
 
 	while($data = mysqli_fetch_object($result)) {
-		$users[] = ['$user_id' => $data->user_id,
+		$users[] = ['user_id' => $data->user_id,
 					'username' => $data->username,
 				    'email' => $data->email];
 	}
@@ -70,5 +70,55 @@ function search_users($link, $term) {
 	}
 
 	return $found;
+}
+
+function following($link, $user_id) {
+	$users = array();
+
+	$sqlcmd = "SELECT DISTINCT user_id
+				FROM following
+				WHERE follower_id = '$user_id'";
+
+	$result = mysqli_query($link, $sqlcmd);
+
+	while($data = mysqli_fetch_object($result)) {
+		array_push($users, $data->user_id);
+	}
+
+	return $users;
+}
+
+function check_follow_count($link, $follower, $followed) {
+	$sqlcmd = "SELECT count(*)
+				FROM following
+				WHERE user_id='$followed' AND follower_id='$follower'";
+	$result = mysqli_query($link, $sqlcmd);
+
+	$row = mysqli_fetch_row($result);
+
+	return $row[0];
+}
+
+function follow_user($link, $follower, $followed) {
+	$count = check_follow_count($follower, $followed);
+
+	if($count == 0) {
+		$sqlcmd = "INSERT INTO following (user_id, follower_id)
+					VALUES ($followed, $follower)";
+
+		$result = mysqli_query($link, $sqlcmd);
+	}
+}
+
+function unfollow_user($link, $follower, $followed) {
+	$count = check_follow_count($follower, $followed);
+
+	if($count == 0) {
+		$sqlcmd = "DELETE FROM following
+					WHERE user_id='$followed' AND follower_id='$follower'
+					LIMIT 1";
+
+		$result = mysqli_query($link, $sqlcmd);
+	}
 }
 ?>
