@@ -45,19 +45,28 @@ function show_users($link) {
 // Search term may be all or part of a username or email
 function search_users($link, $term) {
 	$found = array();
-	$users = show_users($link);
-	$lowerterm = strtolower($term);
+	if(!$term == "")
+	{
+		$users = show_users($link);
+		$lowerterm = strtolower($term);
 
-	foreach($users as $key => $user) {
-		$keys = array_keys($user);
-		$username = $user[$keys[0]];
-		$email = $user[$keys[1]];
-		
-		if(strpos(strtolower($username), strtolower($term)) !== false || 
-		   strpos(strtolower($email), strtolower($term)) !== false) {
+		foreach($users as $key => $user) {
+			$keys = array_keys($user);
+			$username = $user[$keys[0]];
+			$email = $user[$keys[1]];
 			
-			$found[] = $user;
+			if(strpos(strtolower($username), strtolower($term)) !== false || 
+			   strpos(strtolower($email), strtolower($term)) !== false) {
+				
+				$found[] = $user;
+			}
 		}
+		if(count($found) == 0)
+		{
+			$_SESSION['searcherr'] = "We were unable to find any users that match that name!";
+		}
+	} else {
+		$_SESSION['searcherr'] = "Please enter a search string!";
 	}
 
 	return $found;
