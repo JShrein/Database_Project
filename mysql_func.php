@@ -34,7 +34,8 @@ function show_users($link) {
 	$result = mysqli_query($link, $sqlcmd);
 
 	while($data = mysqli_fetch_object($result)) {
-		$users[] = [$data->user_id => $data->username,
+		$users[] = ['$user_id' => $data->user_id,
+					'username' => $data->username,
 				    'email' => $data->email];
 	}
 

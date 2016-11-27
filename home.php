@@ -22,7 +22,6 @@ include_once('mysql_func.php');
 </form>
 
 <?php
-echo $_SESSION['user_id'];
 $posts = show_posts($link, $_SESSION['user_id']);
 
 if(count($posts)) {
