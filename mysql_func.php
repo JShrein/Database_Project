@@ -8,9 +8,9 @@ function add_post($link, $user_id, $content) {
 function show_posts($link, $user_id) {
 	$posts = array();
 
-	$sqlcmd = "SELECT content, time_stamp 
-				FROM posts
-				WHERE user_id = '$user_id' 
+	$sqlcmd = "SELECT u.username, p.content, p.time_stamp
+				FROM posts as p, users as u
+				WHERE u.user_id = '$user_id' 
 				ORDER BY time_stamp DESC";
 
 	$result = mysqli_query($link, $sqlcmd);
@@ -18,6 +18,7 @@ function show_posts($link, $user_id) {
 	while($data = mysqli_fetch_object($result)) {
 		$posts[] = ['time_stamp' => $data->time_stamp,
 					'user_id' => $user_id,
+					'username' => $data->username,
 					'content' => $data->content];
 	}
 

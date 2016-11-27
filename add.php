@@ -1,6 +1,6 @@
 <?php
-session_start();
 include_once('header.php');
+include_once('dbhandler.php');
 include_once('mysql_func.php');
 
 $user_id = $_SESSION['user_id'];

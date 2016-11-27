@@ -1,54 +1,27 @@
 <?php
-session_start();
-include_once('header.php');
-include_once('mysql_func.php');
-
-$_SESSION['user_id'] = 1;
+	include_once('header.php');
 ?>
 
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Twitter Clone</title>
-</head>
+	<head>
+		<title>User Login</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+	<a href='registration.php'>Register</a>
 
-<body>
-<?php
-if(isset($_SESSION['message'])) {
-	echo "<b>".$_SESSION['message']."</b>";
-	unset($_SESSION['message']);
-}
-?>
+		<form action="login.php" method="POST">
+			<input id="authinput" type="text" name="email" placeholder="Email Address"><br>
+			<input id="authinput" type="password" name="pass" placeholder="Password"><br>
+			<input id="authbtn" type="submit" value="Login"><br>
+		</form>
 
-<form method='post' action='add.php'>
-<p>Your status:</p>
-<textarea name='content' rows='5' cols='40' wrap=VIRTUAL></textarea>
-<p><input type='submit' value='submit' /></p
-</form>
-
-<?php
-$posts = show_posts($link, $_SESSION['user_id']);
-
-if(count($posts)) {
-?>
-	<table border='1' cellspacing='0' cellpadding='5' width='500'>
-<?php
-	foreach ($posts as $key => $values) {
-		echo "<tr valign='top'>\n";
-		echo "<td>".$values['user_id'] ."</td>\n";
-		echo "<td>".$values['content'] ."<br />\n";
-		echo "<small>".$values['time_stamp'] ."</small></td>\n";
-		echo "</tr>\n";
-	}
-?>
-	</table>
-<?php
-} else {
-?>
-<p><b>You haven't made any posts!</b></p>
-<?php
-}
-?>
-
-</body>
+		<?php
+			if(isset($_SESSION['autherr'])) {
+				echo $_SESSION['autherr'];
+				unset($_SESSION['autherr']);
+			}
+		?>
+	</body>
 </html>
