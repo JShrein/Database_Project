@@ -5,13 +5,23 @@ function add_post($link, $user_id, $content) {
 	$result = mysqli_query($link, $sqlcmd);
 }
 
-function show_posts($link, $user_id) {
+// $user_id is an array of users to pull posts from
+function show_posts($link, $user_id, $limit=0) {
 	$posts = array();
+
+	$users = implode(',', $user_id);
+	$sqlext = " AND user_id in ($users)";
+
+	if ($limit > 0) {
+		$sqlext = "LIMIT $limit";
+	} else {
+		$sqlext = "";
+	}
 
 	$sqlcmd = "SELECT u.username, p.content, p.time_stamp
 				FROM posts as p, users as u
-				WHERE u.user_id = '$user_id' 
-				ORDER BY time_stamp DESC";
+				WHERE u.user_id = p.user_id and p.user_id IN ($users)
+				ORDER BY time_stamp DESC $sqlext";
 
 	$result = mysqli_query($link, $sqlcmd);
 
@@ -27,7 +37,7 @@ function show_posts($link, $user_id) {
 
 function show_users($link, $user_id=0) {
 	$sqlext = "";
-	
+
 	if($user_id > 0) {
 		$followers = array();
 		$sqlcmd = "SELECT user_id

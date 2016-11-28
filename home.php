@@ -27,6 +27,39 @@ include_once('mysql_func.php');
 	}
 	?>
 
+
+	<h2>Following</h2>
+	<?php
+	$users = show_users($link, $_SESSION['user_id']);
+
+	if(count($users)) {
+		$followers = array();
+		foreach($users as $user) {
+			$followers[] = $user['user_id'];
+		}
+	} else {
+		$followers = array();
+	}
+
+	$followers[] = $_SESSION['user_id'];
+
+	?>
+		<ul>
+	<?php
+		foreach($users as $user) {
+			echo "<li>".$user['username']."</li>\n";
+		}
+	?>
+		</ul>
+	<?php
+	if(!count($followers)) {
+	?>
+	<p><b>You're not following anyone!</b></p>
+	<?php
+	}
+	?>
+
+
 	<form method='post' action='add.php'>
 	<p>Your status:</p>
 	<textarea name='content' rows='5' cols='40' wrap=VIRTUAL></textarea>
@@ -34,7 +67,7 @@ include_once('mysql_func.php');
 	</form>
 
 	<?php
-	$posts = show_posts($link, $_SESSION['user_id']);
+	$posts = show_posts($link, $followers, 15);
 
 	if(count($posts)) {
 	?>
@@ -53,27 +86,6 @@ include_once('mysql_func.php');
 	} else {
 	?>
 	<p><b>You haven't made any posts!</b></p>
-	<?php
-	}
-	?>
-
-	<h2>Following</h2>
-	<?php
-	$users = show_users($link, $_SESSION['user_id']);
-
-	if(count($users)) {
-	?>
-		<ul>
-	<?php
-		foreach($users as $user) {
-			echo "<li>".$user['username']."</li>\n";
-		}
-	?>
-		</ul>
-	<?php
-	} else {
-	?>
-	<p><b>You're not following anyone!</b></p>
 	<?php
 	}
 	?>
