@@ -9,15 +9,29 @@
 		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body>
-		<div id="authform">
-			<form action="register.php" method="POST">
-				<input id="authinput" type="text" name="first" placeholder="First Name"><br>
-				<input id="authinput" type="text" name="last" placeholder="Last Name"><br>
-				<input id="authinput" type="text" name="email" placeholder="Email Address"><br>
-				<input id="authinput" type="text" name="uname" placeholder="Username"><br>
-				<input id="authinput" type="password" name="pass" placeholder="Password"><br>
-				<input id="authbtn" type="submit" value="Register"><br>
-			</form>
+		<div class="form-wrapper">
+			<div id="authform" class="form form_register">
+				<form action="register.php" method="POST">
+					<div class="form-element">
+						<input id="authinput" class="input-txt" type="text" name="first" placeholder="First Name"><br>
+					</div>
+					<div class="form-element">
+						<input id="authinput" class="input-txt" type="text" name="last" placeholder="Last Name"><br>
+					</div>
+					<div class="form-element">
+						<input id="authinput" class="input-txt" type="text" name="email" placeholder="Email Address"><br>
+						</div>
+					<div class="form-element">
+						<input id="authinput" class="input-txt" type="text" name="uname" placeholder="Username"><br>
+					</div>
+					<div class="form-element">
+						<input id="authinput" class="input-txt" type="password" name="pass" placeholder="Password"><br>
+					</div>
+					<div class="form-element">
+						<input id="authbtn" class="btn btn-primary" type="submit" value="Register"><br>
+					</div>
+				</form>
+			</div>
 		</div>
 		<?php
 			if(isset($_SESSION['regerr'])) {
