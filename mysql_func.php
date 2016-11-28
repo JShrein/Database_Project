@@ -25,12 +25,35 @@ function show_posts($link, $user_id) {
 	return $posts;
 }
 
-function show_users($link) {
+function show_users($link, $user_id=0) {
+	$sqlext = "";
+	
+	if($user_id > 0) {
+		$followers = array();
+		$sqlcmd = "SELECT user_id
+					FROM following
+					WHERE follower_id='$user_id'";
+		
+		$result = mysqli_query($link, $sqlcmd);
+
+		while($data = mysqli_fetch_object($result)) {
+			array_push($followers, $data->user_id);
+		}
+
+		if(count($followers)) {
+			$ids = implode(',', $followers);
+			$sqlext = " AND user_id IN ($ids)";
+		} else {
+			return array();
+		}
+	}
+
 	$users = array();
 	$sqlcmd = "SELECT user_id, username, email 
 				FROM users 
-				WHERE status='active'
+				WHERE status='active' $sqlext
 				ORDER BY username";
+
 	$result = mysqli_query($link, $sqlcmd);
 
 	while($data = mysqli_fetch_object($result)) {

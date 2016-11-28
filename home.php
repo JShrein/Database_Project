@@ -57,5 +57,26 @@ include_once('mysql_func.php');
 	}
 	?>
 
+	<h2>Following</h2>
+	<?php
+	$users = show_users($link, $_SESSION['user_id']);
+
+	if(count($users)) {
+	?>
+		<ul>
+	<?php
+		foreach($users as $user) {
+			echo "<li>".$user['username']."</li>\n";
+		}
+	?>
+		</ul>
+	<?php
+	} else {
+	?>
+	<p><b>You're not following anyone!</b></p>
+	<?php
+	}
+	?>
+
 </body>
 </html>
