@@ -250,7 +250,8 @@ h3 {
     line-height: 2em;
 }
 
-.module_following span {
+.module_following span,
+.module_biography span {
     color: #8899a6;
     font-size: 10px;
     letter-spacing: .02em;
@@ -258,8 +259,24 @@ h3 {
     text-transform: uppercase;
 }
 
+.module_biography div {
+    margin: 16px 0;
+    max-width: 250px;
+}
+
 .module_following li {
     color: #0084B4;
+}
+
+.module_picture img {
+    width: 250px;
+    height: 250px;
+}
+
+.module_copyright {
+    color: #8899a6;
+    line-height: 18px;
+    font-size: 12px;
 }
 
 .module .post-list {
