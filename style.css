@@ -18,6 +18,14 @@ input {
 ul {
     list-style: none;
 }
+h3 {
+    color: #1da1f2;
+    font-size: 33px;
+    font-weight: 300;
+    line-height: 33px;
+    padding: 15px 0;
+    margin: 0
+}
 
 #authform {
 	/*width: 180px;*/
@@ -49,7 +57,9 @@ ul {
   background-color: #464646;
 }
 
-.content-wrapper_home {
+.content-wrapper_home,
+.content-wrapper_users,
+.content-wrapper_search {
     background-image: none;
     background-color: white;
 }
@@ -193,7 +203,8 @@ ul {
     vertical-align: bottom;
 }
 
-.post-list {
+.post-list,
+.table-list {
     padding: 15px;
     border: none;
 }
@@ -219,14 +230,28 @@ ul {
     padding: 8px 10px;
 }
 
-.post-list td {
+.post-list td,
+.user-list td {
     border: none;    
 }
-.post-list tr:nth-child(odd) {
+.post-list tr:nth-child(odd),
+.user-list tr:nth-child(odd),
+.search-list tr:nth-child(odd) {
     background-color: #E8F5FD;
 }
 
-.module_following span {
+.user-list,
+.search-list {
+    width: 100%;
+}
+
+.user-list tr,
+.search-list tr {
+    line-height: 2em;
+}
+
+.module_following span,
+.module_biography span {
     color: #8899a6;
     font-size: 10px;
     letter-spacing: .02em;
@@ -234,12 +259,36 @@ ul {
     text-transform: uppercase;
 }
 
+.module_biography div {
+    margin: 16px 0;
+    max-width: 250px;
+}
+
 .module_following li {
     color: #0084B4;
 }
 
+.module_picture img {
+    width: 250px;
+    height: 250px;
+}
+
+.module_copyright {
+    color: #8899a6;
+    line-height: 18px;
+    font-size: 12px;
+}
+
 .module .post-list {
     /*background-color: #E8F5FD;*/
+}
+
+.content_users {
+    min-height: 500px;
+}
+
+.search-input {
+    width: 200px;
 }
 
 

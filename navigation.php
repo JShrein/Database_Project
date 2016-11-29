@@ -8,11 +8,11 @@
 	<li class="nav-item" <?php if ($thisPage=="Home") echo " id=\"currentpage\""; ?>>
 		<a href="home.php">Home</a>
 	</li>
-	<li class="nav-item" <?php if ($thisPage=="Registration") echo " id=\"currentpage\""; ?>>
-		<a href="#">Users</a>
+	<li class="nav-item" <?php if ($thisPage=="Users") echo " id=\"currentpage\""; ?>>
+		<a href="users.php">Users</a>
 	</li>
-	<li class="nav-item" <?php if ($thisPage=="Registration") echo " id=\"currentpage\""; ?>>
-		<a href="#">Search</a>
+	<li class="nav-item" <?php if ($thisPage=="Search") echo " id=\"currentpage\""; ?>>
+		<a href="search.php">Search</a>
 	</li>
 </ul>
 

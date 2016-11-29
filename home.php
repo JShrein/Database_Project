@@ -34,6 +34,13 @@ include("navigation.php");
 
 			<div id="profile">
 				<div class="profile-left">
+					<div class="module module_picture">
+						<img src="http://writedirection.com/website/wp-content/uploads/2016/09/blank-profile-picture-973460_960_720.png">
+					</div>
+					<div class="module module_biography">
+						<span>Biography</span>
+						<div>A biography, or simply bio, is a detailed description of a person's life. It involves more than just the basic facts like education, work, relationships, and death; it portrays a person's experience of these life events.</div>
+					</div>
 					<div class="module module_following">
 						<span>Following</span>
 						<?php
@@ -66,7 +73,7 @@ include("navigation.php");
 						?>
 					</div>
 				</div>
-				<div class="profile-rigth">
+				<div class="profile-middle">
 					<div class="module">
 						<form class="form form_addPost" method='post' action='add.php'>
 							<div class="form-row">
@@ -83,28 +90,33 @@ include("navigation.php");
 						$posts = show_posts($link, $followers, 15);
 						if(count($posts)) {
 					?>
-						<div class="module">
-							<table class="post-list" border='1' cellspacing='0' cellpadding='5' width='500'>
-								<?php
-									foreach ($posts as $key => $values) {
-										echo "<tr valign='middle'>\n";
-										echo "<td>".$values['username'] ."</td>\n";
-										echo "<td>".$values['content'] ."<br />\n";
-										echo "<small>".$values['time_stamp'] ."</small></td>\n";
-										echo "</tr>\n";
-									}
-								?>
-							</table>
-						</div>
+							<div class="module">
+								<table class="post-list" border='1' cellspacing='0' cellpadding='5' width='500'>
+									<?php
+										foreach ($posts as $key => $values) {
+											echo "<tr valign='middle'>\n";
+											echo "<td>".$values['username'] ."</td>\n";
+											echo "<td>".$values['content'] ."<br />\n";
+											echo "<small>".$values['time_stamp'] ."</small></td>\n";
+											echo "</tr>\n";
+										}
+									?>
+								</table>
+							</div>
 					<?php
 						} else {
 					?>
-						<div class="module">
-							<p><b>You haven't made any posts!</b></p>
-						</div>
+							<div class="module">
+								<p><b>You haven't made any posts!</b></p>
+							</div>
 					<?php
 						}
 					?>
+				</div>
+				<div class="profile-rigth">
+					<div class="module module_copyright">
+						<div>© Twitter Chatter Developed And Designed By John Shrein And Parya Zareie Project For Course Database Fall 2016</div>
+					</div>
 				</div>
 			</div>
 		</div>
