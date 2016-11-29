@@ -1,27 +1,58 @@
 <?php
-function add_post($link, $user_id, $content) {
+
+function add_post($client, $email, $content) {
 	$tstamp = date('Y-m-d G:i:s');
-	$sqlcmd = "INSERT INTO posts(user_id, content, time_stamp)
-				VALUES($user_id, '".mysql_real_escape_string($content). "', $tstamp";
-	$result = mysqli_query($link, $sqlcmd);
-}
+	$query = "
+	MATCH (u:User)
+	WHERE u.email = '$email'
+	CREATE (
+		p:Post
+		{
+			content: '$content',
+			timestamp: '$tstamp'
+		}
+	)<-[:POSTED]-(u)";
 
-function add_user($link, $first, $last, $uname, $pass, $email, $status) {
-	$sqlcmd = "INSERT INTO users (firstname, lastname, email, username, password) 
-				VALUES ('$first', '$last', '$email', '$uname', '$pass')";
+	try {
+		$results = $client->run($query);
+	} catch(Neo4jException $e) {
 
-	$result = mysqli_query($link, $sqlcmd);
-
-	if(mysqli_errno($link) == $MYSQL_DUPLICATE_KEY) {
-		$_SESSION['regerr'] = "An account with this email address already exists";
-		header("Location: registration.php");
-	} else {
-		header("Location: index.php");
 	}
+
 }
+
+function add_user($client, $first, $last, $uname, $pass, $email, $status) {
+	$query = "CREATE (
+		u:User
+		{
+			first: '$first',
+			last: '$last',
+			uname: '$uname',
+			pass: '$pass',
+			email: '$email',
+			status: '$status'
+		}
+	)";
+
+	try {
+		$results = $client->run($query);
+	} catch(Neo4jException $e) {
+		$errcode $e->getCode();
+		if($errcode == 0) {
+			$_SESSION['regerr'] = "An account with this email address already exists.";
+			header("Location: registration.php");
+		} else {
+			$_SESSION['regerr'] = "A database error prevented this account from being created.";
+			header("Location: registration.php");
+		}
+	}
+
+	header("Location: index.php");
+}
+
 
 // $user_id is an array of users to pull posts from
-function show_posts($link, $user_id, $limit=0) {
+function show_posts($client, $user_id, $limit=0) {
 	$posts = array();
 
 	$users = implode(',', $user_id);
@@ -50,7 +81,7 @@ function show_posts($link, $user_id, $limit=0) {
 	return $posts;
 }
 
-function show_users($link, $user_id=0) {
+function show_users($client, $user_id=0) {
 	$sqlext = "";
 
 	if($user_id > 0) {
@@ -91,7 +122,7 @@ function show_users($link, $user_id=0) {
 }
 
 // Search term may be all or part of a username or email
-function search_users($link, $term) {
+function search_users($client, $term) {
 	$found = array();
 	if(!$term == "")
 	{
@@ -120,7 +151,7 @@ function search_users($link, $term) {
 	return $found;
 }
 
-function following($link, $user_id) {
+function following($client, $user_id) {
 	$users = array();
 
 	$sqlcmd = "SELECT DISTINCT user_id
@@ -136,7 +167,7 @@ function following($link, $user_id) {
 	return $users;
 }
 
-function check_follow_count($link, $follower, $followed) {
+function check_follow_count($client, $follower, $followed) {
 	$sqlcmd = "SELECT count(*)
 				FROM following
 				WHERE user_id='$followed' AND follower_id='$follower'";
@@ -147,7 +178,7 @@ function check_follow_count($link, $follower, $followed) {
 	return $row[0];
 }
 
-function follow_user($link, $follower, $followed) {
+function follow_user($client, $follower, $followed) {
 	$count = check_follow_count($follower, $followed);
 
 	if($count == 0) {
@@ -158,7 +189,7 @@ function follow_user($link, $follower, $followed) {
 	}
 }
 
-function unfollow_user($link, $follower, $followed) {
+function unfollow_user($client, $follower, $followed) {
 	$count = check_follow_count($follower, $followed);
 
 	if($count == 0) {
