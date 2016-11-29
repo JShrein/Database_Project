@@ -8,7 +8,7 @@
 <?php $thisPage="About Us"; ?>
 <html>
 	<head>
-		<title>User Login</title>
+		<title>Twitter Chatter - User Login</title>
 		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body>

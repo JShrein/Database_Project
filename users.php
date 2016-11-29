@@ -9,7 +9,7 @@ include("navigation.php");
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Users</title>
+	<title>Twitter Chatter - List Users</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 

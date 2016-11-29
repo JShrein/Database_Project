@@ -9,7 +9,7 @@ include("navigation.php");
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Twitter Clone</title>
+	<title>Twitter Chatter - Home</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
@@ -94,10 +94,12 @@ include("navigation.php");
 								<table class="post-list" border='1' cellspacing='0' cellpadding='5' width='500'>
 									<?php
 										foreach ($posts as $key => $values) {
+											$likes = get_likes($link, $values['post_id']);
 											echo "<tr valign='middle'>\n";
 											echo "<td>".$values['username'] ."</td>\n";
 											echo "<td>".$values['content'] ."<br />\n";
 											echo "<small>".$values['time_stamp'] ."</small></td>\n";
+											echo "<td><a href='like.php?pid=".$values['post_id']."&do=like'>Like ".$likes."</a></td>\n";
 											echo "</tr>\n";
 										}
 									?>

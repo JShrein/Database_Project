@@ -1,8 +1,8 @@
 <?php
 function add_post($link, $user_id, $content) {
 	$tstamp = date('Y-m-d G:i:s');
-	$sqlcmd = "INSERT INTO posts(user_id, content, time_stamp)
-				VALUES($user_id, '".mysql_real_escape_string($content). "', $tstamp";
+	$sqlcmd = "INSERT INTO posts(user_id, content, time_stamp, likes)
+				VALUES($user_id, '".mysql_real_escape_string($content). "', '$tstamp', 0)";
 	$result = mysqli_query($link, $sqlcmd);
 }
 
@@ -33,7 +33,7 @@ function show_posts($link, $user_id, $limit=0) {
 		$sqlext = "";
 	}
 
-	$sqlcmd = "SELECT u.username, p.content, p.time_stamp
+	$sqlcmd = "SELECT u.user_id, u.username, p.content, p.time_stamp, p.post_id
 				FROM posts as p, users as u
 				WHERE u.user_id = p.user_id and p.user_id IN ($users)
 				ORDER BY time_stamp DESC $sqlext";
@@ -43,8 +43,10 @@ function show_posts($link, $user_id, $limit=0) {
 	while($data = mysqli_fetch_object($result)) {
 		$posts[] = ['time_stamp' => $data->time_stamp,
 					'user_id' => $user_id,
+					'user_fromdb' => $data->user_id,
 					'username' => $data->username,
-					'content' => $data->content];
+					'content' => $data->content,
+					'post_id' => $data->post_id];
 	}
 
 	return $posts;
@@ -168,5 +170,25 @@ function unfollow_user($link, $follower, $followed) {
 
 		$result = mysqli_query($link, $sqlcmd);
 	}
+}
+
+function add_like($link, $post_id) {
+	$sqlcmd = "UPDATE posts
+				SET likes = likes + 1
+				WHERE post_id='$post_id'";
+
+	$result = mysqli_query($link, $sqlcmd);
+}
+
+function get_likes($link, $post_id) {
+	$sqlcmd = "SELECT likes
+				FROM posts
+				WHERE post_id='$post_id'";
+
+	$result = mysqli_query($link, $sqlcmd);
+
+	$row = mysqli_fetch_row($result);
+
+	return $row[0];
 }
 ?>

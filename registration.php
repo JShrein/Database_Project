@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>User Login</title>
+		<title>Twitter Chatter - User Registration</title>
 		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body>

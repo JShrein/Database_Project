@@ -19,7 +19,7 @@ if(isset($_POST['submit'])) {
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Search</title>
+	<title>Twitter Chatter - Search for Users</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
