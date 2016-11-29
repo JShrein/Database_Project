@@ -2,93 +2,112 @@
 include_once('header.php');
 include_once('dbhandler.php');
 include_once('mysql_func.php');
+$thisPage="Home";
+include("navigation.php");
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Twitter Clone</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
-	<?php
-	if(!isset($_SESSION['user_id'])) {
-		header("Location: index.php");
-	}
-	?>
-	<form action="logout.php">
-		<input id="authbtn" type="submit" value="Logout">
-	</form>
+	<div class="content-wrapper content-wrapper_home">
+		<div class="content">
 
-	<?php
-	if(isset($_SESSION['message'])) {
-		echo "<p id='phpmsg'>".$_SESSION['message']."</p>";
-		unset($_SESSION['message']);
-	}
-	?>
+			<?php
+				if(!isset($_SESSION['user_id'])) {
+					header("Location: index.php");
+				}
+			?>
+			<form action="logout.php">
+				<input class="btn btn-secondary btn-logout" id="authbtn" type="submit" value="Logout">
+			</form>
+			<?php
+				if(isset($_SESSION['message'])) {
+					echo "<p id='phpmsg'>".$_SESSION['message']."</p>";
+					unset($_SESSION['message']);
+				}
+			?>
 
+			<div id="profile">
+				<div class="profile-left">
+					<div class="module module_following">
+						<span>Following</span>
+						<?php
+							$users = show_users($link, $_SESSION['user_id']);
 
-	<h2>Following</h2>
-	<?php
-	$users = show_users($link, $_SESSION['user_id']);
+							if(count($users)) {
+								$followers = array();
+								foreach($users as $user) {
+									$followers[] = $user['user_id'];
+								}
+							} else {
+								$followers = array();
+							}
 
-	if(count($users)) {
-		$followers = array();
-		foreach($users as $user) {
-			$followers[] = $user['user_id'];
-		}
-	} else {
-		$followers = array();
-	}
+							$followers[] = $_SESSION['user_id'];
+						?>
+						<ul>
+							<?php
+								foreach($users as $user) {
+									echo "<li>".$user['username']."</li>\n";
+								}
+							?>
+						</ul>
+						<?php
+							if(!count($followers)) {
+						?>
+								<p><b>You're not following anyone!</b></p>
+						<?php
+							}
+						?>
+					</div>
+				</div>
+				<div class="profile-rigth">
+					<div class="module">
+						<form class="form form_addPost" method='post' action='add.php'>
+							<div class="form-row">
+								<p>Your status:</p>
+							</div>
+							<div class="form-row">
+								<textarea class="input-txtarea" name='content' rows='5' cols='40' wrap=VIRTUAL></textarea>
+								<input type='submit' class="btn btn-primary" value='submit' />
+							</div>
+						</form>
+					</div>
 
-	$followers[] = $_SESSION['user_id'];
-
-	?>
-		<ul>
-	<?php
-		foreach($users as $user) {
-			echo "<li>".$user['username']."</li>\n";
-		}
-	?>
-		</ul>
-	<?php
-	if(!count($followers)) {
-	?>
-	<p><b>You're not following anyone!</b></p>
-	<?php
-	}
-	?>
-
-
-	<form method='post' action='add.php'>
-	<p>Your status:</p>
-	<textarea name='content' rows='5' cols='40' wrap=VIRTUAL></textarea>
-	<p><input type='submit' value='submit' /></p
-	</form>
-
-	<?php
-	$posts = show_posts($link, $followers, 15);
-
-	if(count($posts)) {
-	?>
-		<table border='1' cellspacing='0' cellpadding='5' width='500'>
-	<?php
-		foreach ($posts as $key => $values) {
-			echo "<tr valign='top'>\n";
-			echo "<td>".$values['username'] ."</td>\n";
-			echo "<td>".$values['content'] ."<br />\n";
-			echo "<small>".$values['time_stamp'] ."</small></td>\n";
-			echo "</tr>\n";
-		}
-	?>
-		</table>
-	<?php
-	} else {
-	?>
-	<p><b>You haven't made any posts!</b></p>
-	<?php
-	}
-	?>
-
+					<?php
+						$posts = show_posts($link, $followers, 15);
+						if(count($posts)) {
+					?>
+						<div class="module">
+							<table class="post-list" border='1' cellspacing='0' cellpadding='5' width='500'>
+								<?php
+									foreach ($posts as $key => $values) {
+										echo "<tr valign='middle'>\n";
+										echo "<td>".$values['username'] ."</td>\n";
+										echo "<td>".$values['content'] ."<br />\n";
+										echo "<small>".$values['time_stamp'] ."</small></td>\n";
+										echo "</tr>\n";
+									}
+								?>
+							</table>
+						</div>
+					<?php
+						} else {
+					?>
+						<div class="module">
+							<p><b>You haven't made any posts!</b></p>
+						</div>
+					<?php
+						}
+					?>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

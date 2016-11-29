@@ -24,10 +24,18 @@
 						<input class="authinput input-txt" type="password" name="pass" placeholder="Password" />
 					</div>
 					<div class="form-row">
-						<input id="authbtn" class="btn btn-primary" type="submit" value="Login" />
+						<input id="authbtn" class="btn btn-primary btn-login" type="submit" value="Login" />
 					</div>
 					<div class="form-row">
 						<span>Don't have an account? </span><a href='registration.php' class="link">Sign up</a>
+					</div>
+					<div class="error">
+						<?php
+							if(isset($_SESSION['autherr'])) {
+								echo $_SESSION['autherr'];
+								unset($_SESSION['autherr']);
+							}
+						?>
 					</div>
 				</form>
 			</div>

@@ -5,8 +5,8 @@
 	<li class="nav-item" <?php if ($thisPage=="Registration") echo " id=\"currentpage\""; ?>>
 		<a href="registration.php">Registration</a>
 	</li>
-	<li class="nav-item" <?php if ($thisPage=="Registration") echo " id=\"currentpage\""; ?>>
-		<a href="#">Home</a>
+	<li class="nav-item" <?php if ($thisPage=="Home") echo " id=\"currentpage\""; ?>>
+		<a href="home.php">Home</a>
 	</li>
 	<li class="nav-item" <?php if ($thisPage=="Registration") echo " id=\"currentpage\""; ?>>
 		<a href="#">Users</a>

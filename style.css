@@ -16,7 +16,7 @@ input {
 	padding: 5px;
 }
 ul {
-list-style: none;
+    list-style: none;
 }
 
 #authform {
@@ -28,16 +28,30 @@ list-style: none;
 }
 
 #authbtn {
-    width:160px;
+    /*width:160px;*/
 }
 
 .content-wrapper {
-        background-image: url(http://eskipaper.com/images/blurry-1.jpg);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-    background-color: #464646;
+  height: calc(100% - 4em);
+  min-width: 100%;
+  position: relative;
+  top: 0;
+  bottom: 100%;
+  left: 0;
+  z-index: 1;
+  padding: 4em 0 0 0;
+  background-size: 200%;
+  background-image: url(http://eskipaper.com/images/blurry-1.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #464646;
+}
+
+.content-wrapper_home {
+    background-image: none;
+    background-color: white;
 }
 
 .form-wrapper {
@@ -45,16 +59,16 @@ list-style: none;
 
 .form {
 	padding: 15px;
-	background-color: white;
-	-webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
-	-moz-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
-	box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
 }
 
 .form_login,
 .form_register {
 	width: 33%;
 	margin: 25px auto;
+    background-color: white;
+    -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
 }
 
 .form-row {
@@ -71,10 +85,6 @@ list-style: none;
     display: inline-block;
 }
 
-.form_login .form-row input {
-    width: 70%;
-}
-
 .input-txt {
 	width: 90%;
     padding: .5rem .75rem;
@@ -87,18 +97,6 @@ list-style: none;
     background-clip: padding-box;
     border: 1px solid rgba(0,0,0,.15);
     border-radius: .25rem;
-}
-
-.btn-primary {
-	color: #fff;
-    background-color: #337ab7;
-    border-color: #2e6da4;
-}
-
-.btn-default {
-	color: #333;
-    background-color: #fff;
-    border-color: #ccc;
 }
 
 .btn {
@@ -125,6 +123,36 @@ list-style: none;
     text-decoration: none;
 }
 
+.btn-primary {
+	color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+.btn-default {
+	color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.btn-login,
+.btn-register {
+    width: 200px;
+}
+
+.btn-logout {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: auto;
+}
+
 .btn-primary.focus, 
 .btn-primary:focus,
 .btn-primary:hover {
@@ -136,6 +164,84 @@ list-style: none;
 .link {
     text-decoration: none;
 }
+
+.error {
+    color: red;
+}
+
+.content {
+    padding: 0 4em;
+    background-color: #F5F8FA;
+}
+
+#profile {
+    display: flex;
+    /*border:1px solid gold;*/
+}
+.profile-left {
+    /*border:1px solid silver;*/
+}
+.profile-right {
+    /*border:1px solid aqua;*/
+}
+
+.profile-left ul {
+    padding: 0;
+}
+
+.form_addPost .input-txtarea {
+    vertical-align: bottom;
+}
+
+.post-list {
+    padding: 15px;
+    border: none;
+}
+
+.module {
+    background-color: #FFFFFF;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    line-height: inherit;
+    background-clip: inherit;
+    border: 1px solid #e1e8ed;
+    border-radius: 5px;
+    line-height: inherit;
+    padding: 10px;
+    margin: 5px;
+}
+
+.input-txtarea { 
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: .25rem;
+    box-shadow: none;
+    font-size: 14px;
+    padding: 8px 10px;
+}
+
+.post-list td {
+    border: none;    
+}
+.post-list tr:nth-child(odd) {
+    background-color: #E8F5FD;
+}
+
+.module_following span {
+    color: #8899a6;
+    font-size: 10px;
+    letter-spacing: .02em;
+    overflow: hidden;
+    text-transform: uppercase;
+}
+
+.module_following li {
+    color: #0084B4;
+}
+
+.module .post-list {
+    /*background-color: #E8F5FD;*/
+}
+
 
 /********** NAVIGATION **********/
 .navigation {
@@ -176,17 +282,7 @@ list-style: none;
   background: linear-gradient(135deg, rgba(0,0,0,0) 0%,rgba(75,20,20,0.65) 100%);
 }
 
-.content-wrapper {
-  min-height: 100%;
-  min-width: 100%;
-  position: relative;
-  top: 0;
-  bottom: 100%;
-  left: 0;
-  z-index: 1;
-  padding: 4em 0 0 0;
-  background-size: 200%;
-}
+
 
 .nav-trigger {
   position: absolute;
