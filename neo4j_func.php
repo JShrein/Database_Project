@@ -52,11 +52,11 @@ function add_user($client, $first, $last, $uname, $pass, $email, $status) {
 
 
 // $user_id is an array of users to pull posts from
-function show_posts($client, $user_id, $limit=0) {
+function show_posts($client, $emails, $limit=0) {
 	$posts = array();
 
-	$users = implode(',', $user_id);
-	$sqlext = " AND user_id in ($users)";
+	$users = implode(',', $emails);
+	$sqlext = "";
 
 	if ($limit > 0) {
 		$sqlext = "LIMIT $limit";
@@ -64,18 +64,23 @@ function show_posts($client, $user_id, $limit=0) {
 		$sqlext = "";
 	}
 
-	$sqlcmd = "SELECT u.username, p.content, p.time_stamp
-				FROM posts as p, users as u
-				WHERE u.user_id = p.user_id and p.user_id IN ($users)
-				ORDER BY time_stamp DESC $sqlext";
+	$query = "MATCH (User)-[:POSTED]->(Post)
+			  WHERE User.email IN [$users]
+			  RETURN User.uname as username, User.email as email, Post.content as content, Post.timestamp as timestamp
+			  ORDER BY timestamp DESC $sqlext";
 
-	$result = mysqli_query($link, $sqlcmd);
+	try {
+		$results = $client->run($query);
 
-	while($data = mysqli_fetch_object($result)) {
-		$posts[] = ['time_stamp' => $data->time_stamp,
-					'user_id' => $user_id,
-					'username' => $data->username,
-					'content' => $data->content];
+		foreach($results->getRecords() as $record) {
+			$posts[] = ['timestamp' => $record->value('timestamp'),
+						'email' => $record->value('email'),
+						'username' => $record->value('username'),
+						'content' => $$record->value('content')];
+		}
+	} catch(Neo4jException $e) {
+		$err = $e->getMessage();
+		$_SESSION['posterr'] = "Post retrieval failed with message ".$err;
 	}
 
 	return $posts;
