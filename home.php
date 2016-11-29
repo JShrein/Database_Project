@@ -83,25 +83,25 @@ include("navigation.php");
 						$posts = show_posts($link, $followers, 15);
 						if(count($posts)) {
 					?>
-						<div class="module">
-							<table class="post-list" border='1' cellspacing='0' cellpadding='5' width='500'>
-								<?php
-									foreach ($posts as $key => $values) {
-										echo "<tr valign='middle'>\n";
-										echo "<td>".$values['username'] ."</td>\n";
-										echo "<td>".$values['content'] ."<br />\n";
-										echo "<small>".$values['time_stamp'] ."</small></td>\n";
-										echo "</tr>\n";
-									}
-								?>
-							</table>
-						</div>
+							<div class="module">
+								<table class="post-list" border='1' cellspacing='0' cellpadding='5' width='500'>
+									<?php
+										foreach ($posts as $key => $values) {
+											echo "<tr valign='middle'>\n";
+											echo "<td>".$values['username'] ."</td>\n";
+											echo "<td>".$values['content'] ."<br />\n";
+											echo "<small>".$values['time_stamp'] ."</small></td>\n";
+											echo "</tr>\n";
+										}
+									?>
+								</table>
+							</div>
 					<?php
 						} else {
 					?>
-						<div class="module">
-							<p><b>You haven't made any posts!</b></p>
-						</div>
+							<div class="module">
+								<p><b>You haven't made any posts!</b></p>
+							</div>
 					<?php
 						}
 					?>
