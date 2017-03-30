@@ -6,6 +6,13 @@ function add_post($link, $user_id, $content) {
 	$result = mysqli_query($link, $sqlcmd);
 }
 
+function add_comment($link, $user_id, $post_id, $comment) {
+	$sqlcmd = "INSERT INTO comments(user_id, post_id, comment)
+				VALUES ('$user_id', '$post_id', '".mysql_real_escape_string($comment). "')";
+
+	$result = mysqli_query($link, $sqlcmd);
+}
+
 function add_user($link, $first, $last, $uname, $pass, $email, $status) {
 	$sqlcmd = "INSERT INTO users (firstname, lastname, email, username, password) 
 				VALUES ('$first', '$last', '$email', '$uname', '$pass')";
@@ -47,6 +54,23 @@ function show_posts($link, $user_id, $limit=0) {
 					'username' => $data->username,
 					'content' => $data->content,
 					'post_id' => $data->post_id];
+	}
+
+	return $posts;
+}
+
+function show_comments($link, $post_id) {
+	$posts = array();
+
+	$sqlcmd = "SELECT u.username, c.comment
+				FROM comments as c, users as u
+				WHERE u.user_id = c.user_id and c.post_id='$post_id'";
+
+	$result = mysqli_query($link, $sqlcmd);
+
+	while($data = mysqli_fetch_object($result)) {
+		$posts[] = ['username' => $data->username,
+					'comment' => $data->comment];
 	}
 
 	return $posts;

@@ -99,8 +99,36 @@ include("navigation.php");
 											echo "<td>".$values['username'] ."</td>\n";
 											echo "<td>".$values['content'] ."<br />\n";
 											echo "<small>".$values['time_stamp'] ."</small></td>\n";
-											echo "<td><a href='like.php?pid=".$values['post_id']."&do=like'>Like ".$likes."</a><br>";
-											echo "<a href='comment.php?uid=".$_SESSION['user_id']."&pid=".$values['post_id']."&do=comment'>Comment</td>\n";
+											echo "<td><a href='like.php?pid=".$values['post_id']."&do=like'>Like ".$likes."</a></td><br>\n";
+											//echo "<a href='comment.php?uid=".$_SESSION['user_id']."&pid=".$values['post_id']."&do=comment'>Comment</a></td>\n";
+											echo "</tr>\n";
+											echo "<tr valign='middle'>\n";
+									?>
+											<table>
+											<?php
+											$comments = show_comments($link, $values['post_id']);
+												foreach($comments as $k => $v) {
+													echo "<tr valign='middle'>\n";
+													echo "<td>".$v['username'] ."</br>\n";
+													echo "".$v['comment'] ."<br /></td>\n";
+													echo "</tr>\n";
+													echo "<tr valign='middle'>\n";
+													echo "<td>\n";
+											?>
+													<form method='post' action='comment.php'>
+															<?php
+															echo "<input type='hidden' name='uid' value='".$_SESSION['user_id']."'/>\n";
+															echo "<input type='hidden' name='pid' value='".$values['post_id']."'/>\n";
+															?>
+															<textarea class="input-txtarea" name='comment' rows='2' cols='40' wrap=VIRTUAL placeholder="Enter a comment"></textarea>
+															<input type='submit' class="btn btn-primary" value='submit' />
+													</form>
+											<?php
+													echo "</td></tr>\n";
+												}
+											?>
+											</table>
+									<?php
 											echo "</tr>\n";
 										}
 									?>

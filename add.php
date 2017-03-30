@@ -9,5 +9,5 @@ $content = $_POST['content'];
 add_post($link, $user_id, $content);
 $_SESSION['message'] = "Your post was added!";
 
-//header("Location:home.php");
+header("Location:home.php");
 ?>
